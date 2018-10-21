@@ -61,7 +61,6 @@ def place_call():
 		client = Client(account_sid, auth_token)
 		
 		print(path + "/specification")
-		#<Play>https://evening-shelf-28323.herokuapp.com/static/scream.mp3</Play>
 		
 		call = client.calls.create(
 			url=path + "/specification",
