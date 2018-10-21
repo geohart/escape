@@ -1,7 +1,6 @@
 from flask import Flask, request, send_file
 from twilio.twiml.voice_response import VoiceResponse
 from twilio.rest import Client
-import xml.etree.cElementTree as ET
 import os
 
 app = Flask(__name__)
@@ -14,19 +13,7 @@ def index():
 @app.route("/answer", methods=['GET'])
 def answer_call():
 	"""Respond to incoming phone calls with a brief message."""
-	# Start our TwiML response
-	response = VoiceResponse()
-
-	# Read a message aloud to the caller
-	# response.say("Thank you for calling! Have a great day.", voice='alice')
-	
-	# Play sound
-	#response.play('./sounds/scream.mp3', loop=10)
-	
-	resource_url = (request.base_url[0:-len(request.path)])
-	
-	return("<img src='" + resource_url + "/sounds/pumpkin.jpg'>")
-	#return str(response)
+	return send_file("static/call.xml")
 
 @app.route("/call", methods=['GET'])
 def place_call():
@@ -46,15 +33,7 @@ def place_call():
 		
 		# get root url
 		path = (request.base_url[0:-len(request.path)])
-		print(path)
 		
-		"""# create xml file describing call
-		root = ET.Element("Response")
-		ET.SubElement(root, "Say", voice="Alice").text = "Be afraid!"
-		ET.SubElement(root, "Play").text = path +"/static/scream.mp3"
-		tree = ET.ElementTree(root)
-		tree.write("static/call.xml")"""
-
 		# proceed with call attempt
 		account_sid = os.environ['twilio_sid']
 		auth_token = os.environ['twilio_auth_token']
@@ -68,13 +47,12 @@ def place_call():
 			from_="+16506956260"
 		)
 		
-		return("success")
+		return(call.sid)
 		
 @app.route("/specification", methods=['GET','POST'])
 def get_call_specification():
-
+	"""Return an xml document describing the desired response"""
 	return send_file("static/call.xml")
-	
 
 if __name__ == "__main__":
 	app.run(debug=True)
