@@ -11,10 +11,14 @@ def hello_world():
 def answer_call():
     """Respond to incoming phone calls with a brief message."""
     # Start our TwiML response
-    resp = VoiceResponse()
+    response = VoiceResponse()
 
     # Read a message aloud to the caller
-    resp.say("Thank you for calling! Have a great day.", voice='alice')
+    # response.say("Thank you for calling! Have a great day.", voice='alice')
+	
+	# Play sound
+	response.play('./sounds/scream.mp3', loop=10)
+
 
     return str(resp)
 
