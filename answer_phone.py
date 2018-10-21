@@ -18,9 +18,8 @@ def answer_call():
 	
 	# Play sound
 	response.play('./sounds/scream.mp3', loop=10)
-
-
-    return str(resp)
+	
+	return str(resp)
 
 if __name__ == "__main__":
 	app.run(debug=True)
