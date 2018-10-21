@@ -1,1 +1,1 @@
-web: gunicorn answer_phone:app
+web: gunicorn app:app
