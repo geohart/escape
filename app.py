@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, send_file
 from twilio.twiml.voice_response import VoiceResponse
 from twilio.rest import Client
 import xml.etree.cElementTree as ET
@@ -60,13 +60,22 @@ def place_call():
 		auth_token = os.environ['twilio_auth_token']
 		client = Client(account_sid, auth_token)
 		
+		print(path + "/specification")
+		#<Play>https://evening-shelf-28323.herokuapp.com/static/scream.mp3</Play>
+		
 		call = client.calls.create(
-			url=path + "/static/call.xml",
+			url=path + "/specification",
 			to="+1" + target,
 			from_="+16506956260"
 		)
 		
 		return("success")
+		
+@app.route("/specification", methods=['GET','POST'])
+def get_call_specification():
+
+	return send_file("static/call.xml")
+	
 
 if __name__ == "__main__":
 	app.run(debug=True)
